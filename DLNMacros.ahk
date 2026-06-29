@@ -1,9 +1,34 @@
+global Version := "1.0.1"
+
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 
-baseURL := "https://raw.githubusercontent.com/Adelnon/DLN/main/"
+global BaseURL := "https://raw.githubusercontent.com/Adelnon/DLN/main"
 
-GAG2 := [
+CheckVersion(localVersion, url, selfPath) {
+    tmp := A_Temp "\dln_update.ahk"
+    try Download(url, tmp)
+    catch
+        return
+
+    content := FileRead(tmp)
+    FileDelete(tmp)
+
+    RegExMatch(content, 'global Version := "(.+)"', &m)
+    remoteVersion := m[1]
+
+    if (remoteVersion != localVersion) {
+        if MsgBox("Update available! (" localVersion " → " remoteVersion ")`nUpdate now?", , "YesNo") = "Yes" {
+            Download(url, selfPath)
+            MsgBox("Updated! Restarting...")
+            Reload()
+        }
+    }
+}
+
+CheckVersion(Version, BaseURL "/Main.ahk", A_ScriptFullPath)
+
+global GAG2 := [
     "GAG2.ahk",
     "GAG2Maps.ahk",
     "JoinRBX.ahk",
@@ -11,10 +36,10 @@ GAG2 := [
     "SaveFailed.png"
 ]
 
-if !FileExist(A_MyDocuments "\DLN") {
+if !DirExist(A_MyDocuments "\DLN") {
     DirCreate(A_MyDocuments "\DLN")
 }
-if !FileExist(A_MyDocuments "\DLN\GAG2") {
+if !DirExist(A_MyDocuments "\DLN\GAG2") {
     DirCreate(A_MyDocuments "\DLN\GAG2")
 }
 
@@ -24,7 +49,9 @@ if FileExist(A_MyDocuments "\DLN\join_rbx.exe") {
 Download("https://github.com/Adelnon/DLN/releases/download/Exe/join_rbx.exe", A_MyDocuments "\DLN\join_rbx.exe")
 
 GAG2Download() {
-    if !FileExist(A_MyDocuments "\DLN\GAG2\GAG2.ahk") {
+    for file in GAG2 {
+        Download(BaseURL "/GAG2/" . file, A_MyDocuments "\DLN\GAG2\" . file)
     }
-    Download("https://raw.githubusercontent.com/Adelnon/DLN/main/GAG2/GAG2.ahk", A_MyDocuments "\DLN\GAG2\GAG2.ahk")
 }
+
+F1::GAG2Download()
