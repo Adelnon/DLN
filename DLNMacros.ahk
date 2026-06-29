@@ -5,31 +5,6 @@ global Version := "1.0.0"
 
 global BaseURL := "https://raw.githubusercontent.com/Adelnon/DLN/main/"
 
-CheckVersion(localVersion, url, selfPath) {
-    tmp := A_Temp "\dln_update.ahk"
-    try Download(url, tmp)
-    catch
-        return
-
-    content := FileRead(tmp)
-    FileDelete(tmp)
-
-    if !RegExMatch(content, 'global Version := "(.+)"', &m)  {
-        MsgBox("no match found in:`n" content)
-        return
-    }
-
-    remoteVersion := Trim(m[1], ' `r`n"')
-
-    if (remoteVersion != localVersion) {
-        if MsgBox("Update available! (" localVersion " → " remoteVersion ")`nUpdate now?", , "YesNo") = "Yes" {
-            Download(url, selfPath)
-            MsgBox("Updated! Restarting...")
-            Reload()
-        }
-    }
-}
-
 CheckVersion(Version, BaseURL "DLNMacros.ahk", A_ScriptFullPath)
 
 maingui := Gui()
@@ -62,3 +37,30 @@ GAG2Download() {
 }
 
 F1::GAG2Download()
+
+CheckVersion(localVersion, url, selfPath) {
+    tmp := A_Temp "\dln_update.ahk"
+    try Download(url, tmp)
+    catch
+        return
+
+    content := FileRead(tmp)
+    FileDelete(tmp)
+
+    if !RegExMatch(content, 'global Version := "(.+)"', &m)  {
+        MsgBox("no match found in:`n" content)
+        return
+    }
+
+    remoteVersion := Trim(m[1], ' `r`n"')
+    
+    MsgBox("local: " localVersion "`nremote: " remoteVersion)  ; debug
+
+    if (remoteVersion != localVersion) {
+        if MsgBox("Update available! (" localVersion " → " remoteVersion ")`nUpdate now?", , "YesNo") = "Yes" {
+            Download(url, selfPath)
+            MsgBox("Updated! Restarting...")
+            Reload()
+        }
+    }
+}
