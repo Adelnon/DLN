@@ -1,4 +1,4 @@
-global Version := "1.0.0"
+global Version := "1.0.1"
 
 #Requires AutoHotkey v2.0
 #SingleInstance Force
@@ -20,8 +20,6 @@ CheckVersion(localVersion, url, selfPath) {
     }
 
     remoteVersion := Trim(m[1], ' `r`n"')
-    
-    MsgBox("local: " localVersion "`nremote: " remoteVersion)  ; debug
 
     if (remoteVersion != localVersion) {
         if MsgBox("Update available! (" localVersion " → " remoteVersion ")`nUpdate now?", , "YesNo") = "Yes" {
