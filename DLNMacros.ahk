@@ -3,7 +3,7 @@ global Version := "1.0.1"
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 
-global BaseURL := "https://raw.githubusercontent.com/Adelnon/DLN/main"
+global BaseURL := "https://raw.githubusercontent.com/Adelnon/DLN/main/"
 
 CheckVersion(localVersion, url, selfPath) {
     tmp := A_Temp "\dln_update.ahk"
@@ -14,10 +14,14 @@ CheckVersion(localVersion, url, selfPath) {
     content := FileRead(tmp)
     FileDelete(tmp)
 
-    if !RegExMatch(content, 'global Version := "(.+)"', &m)
-        return  ; version line not found
+    if !RegExMatch(content, 'global Version := "(.+)"', &m)  {
+        MsgBox("no match found in:`n" content)
+        return
+    }
 
-    remoteVersion := m[1]
+    remoteVersion := Trim(m[1], ' `r`n"')
+    
+    MsgBox("local: " localVersion "`nremote: " remoteVersion)  ; debug
 
     if (remoteVersion != localVersion) {
         if MsgBox("Update available! (" localVersion " → " remoteVersion ")`nUpdate now?", , "YesNo") = "Yes" {
@@ -28,7 +32,7 @@ CheckVersion(localVersion, url, selfPath) {
     }
 }
 
-CheckVersion(Version, BaseURL "/Main.ahk", A_ScriptFullPath)
+CheckVersion(Version, BaseURL "DLNMacros.ahk", A_ScriptFullPath)
 
 maingui := Gui()
 maingui.Show()
@@ -55,7 +59,7 @@ Download("https://github.com/Adelnon/DLN/releases/download/Exe/join_rbx.exe", A_
 
 GAG2Download() {
     for file in GAG2 {
-        Download(BaseURL "/GAG2/" . file, A_MyDocuments "\DLN\GAG2\" . file)
+        Download(BaseURL "GAG2/" . file, A_MyDocuments "\DLN\GAG2\" . file)
     }
 }
 
