@@ -14,7 +14,9 @@ CheckVersion(localVersion, url, selfPath) {
     content := FileRead(tmp)
     FileDelete(tmp)
 
-    RegExMatch(content, 'global Version := "(.+)"', &m)
+    if !RegExMatch(content, 'global Version := "(.+)"', &m)
+        return  ; version line not found
+
     remoteVersion := m[1]
 
     if (remoteVersion != localVersion) {
@@ -27,6 +29,9 @@ CheckVersion(localVersion, url, selfPath) {
 }
 
 CheckVersion(Version, BaseURL "/Main.ahk", A_ScriptFullPath)
+
+maingui := Gui()
+maingui.Show()
 
 global GAG2 := [
     "GAG2.ahk",
