@@ -1,3 +1,5 @@
+global Version := "1.0.0"
+
 #Requires AutoHotkey 2.0.0
 #SingleInstance Force
 CoordMode "Mouse", "Window"
@@ -6,18 +8,20 @@ CoordMode "Pixel", "Window"
 ; EXTERNAL STUFF
 
 #Include GAG2Maps.ahk
-#Include Webhooks.ahk
-#Include JoinRBX.ahk
+#Include ..\Extras\Webhooks.ahk
+#Include ..\Extras\JoinRBX.ahk
+#Include ..\Extras\Resize.ahk
+#Include ..\Extras\Menus.ahk
 
 ; FILES CREATION
 
 Create() {
     try {
-        if !FileExist(A_MyDocuments "\DLN") {
-            DirCreate(A_MyDocuments "\DLN")
+        if !FileExist(A_MyDocuments "\DLN\Settings") {
+            DirCreate(A_MyDocuments "\DLN\Settings")
         }
-        if !FileExist(A_MyDocuments "\DLN\GAG2Settings.ini") {
-            FileAppend("", A_MyDocuments "\DLN\GAG2Settings.ini")
+        if !FileExist(A_MyDocuments "\DLN\Settings\GAG2Settings.ini") {
+            FileAppend("", A_MyDocuments "\DLN\Settings\GAG2Settings.ini")
         }
     }
 }
@@ -52,30 +56,30 @@ global StopKey     := "F3"
 Load() {
     for Plant in Plants {
         try {
-            Plant.Value := IniRead(A_MyDocuments "\DLN\GAG2Settings.ini", "Plants", Plant.Name)
+            Plant.Value    := IniRead(A_MyDocuments "\DLN\Settings\GAG2Settings.ini", "Plants", Plant.Name)
         }
     }
     for Gear in Gears {
         try {
-            Gear.Value := IniRead(A_MyDocuments "\DLN\GAG2Settings.ini", "Gears", Gear.Name)
+            Gear.Value     := IniRead(A_MyDocuments "\DLN\Settings\GAG2Settings.ini", "Gears", Gear.Name)
         }
     }
 
     try {
-        global DoPlantShop  := IniRead(A_MyDocuments "\DLN\GAG2Settings.ini", "Variables", "DoPlantShop")
+        global DoPlantShop  := IniRead(A_MyDocuments "\DLN\Settings\GAG2Settings.ini", "Variables", "DoPlantShop")
     }
 
     try {
-        global DoGearShop   := IniRead(A_MyDocuments "\DLN\GAG2Settings.ini", "Variables", "DoGearShop")
+        global DoGearShop   := IniRead(A_MyDocuments "\DLN\Settings\GAG2Settings.ini", "Variables", "DoGearShop")
     }
     
     try {
-        global DoSell       := IniRead(A_MyDocuments "\DLN\GAG2Settings.ini", "Variables", "DoSell")
+        global DoSell       := IniRead(A_MyDocuments "\DLN\Settings\GAG2Settings.ini", "Variables", "DoSell")
     }
 
     try {
-        global Webhook      := IniRead(A_MyDocuments "\DLN\GAG2Settings.ini", "Externals", "Webhook")
-        global Private      := IniRead(A_MyDocuments "\DLN\GAG2Settings.ini", "Externals", "Private")
+        global Webhook      := IniRead(A_MyDocuments "\DLN\Settings\GAG2Settings.ini", "Externals", "Webhook")
+        global Private      := IniRead(A_MyDocuments "\DLN\Settings\GAG2Settings.ini", "Externals", "Private")
     }
 }
 
@@ -95,7 +99,7 @@ Main.AddText("w90 h20 xp+2 yp+15","Plant Shop").SetFont("s8")
 Main.AddCheckbox("w20 h20 xp+5 yp+15 vDoPlantShop Checked" DoPlantShop).OnEvent("Click", Func1)
 Func1(ctrl, info) {
     global DoPlantShop := ctrl.Value
-    IniWrite(ctrl.Value, A_MyDocuments "\DLN\GAG2Settings.ini", "Variables", "DoPlantShop")
+    IniWrite(ctrl.Value, A_MyDocuments "\DLN\Settings\GAG2Settings.ini", "Variables", "DoPlantShop")
 }
 Main.AddButton("Default w70 h20 xp+20 yp", "Settings").OnEvent("Click", PlantShopShow)
 PlantShopShow(*) {
@@ -106,7 +110,7 @@ Main.AddText("w90 h20 xp-25 yp+20","Gear Shop").SetFont("s8")
 Main.AddCheckbox("w20 h20 xp+5 yp+15 vDoGearShop Checked" DoGearShop).OnEvent("Click", Func2)
 Func2(ctrl, info) {
     global DoGearShop := ctrl.Value
-    IniWrite(ctrl.Value, A_MyDocuments "\DLN\GAG2Settings.ini", "Variables", "DoGearShop")
+    IniWrite(ctrl.Value, A_MyDocuments "\DLN\Settings\GAG2Settings.ini", "Variables", "DoGearShop")
 }
 Main.AddButton("Default w70 h20 xp+20 yp", "Settings").OnEvent("Click", GearShopShow)
 GearShopShow(*) {
@@ -117,7 +121,7 @@ Main.AddText("w90 h20 xp-25 yp+20","Sell Plants").SetFont("s8")
 Main.AddCheckbox("w20 h20 xp+5 yp+15 vDoSell Disabled Checked" DoSell).OnEvent("Click", Func3)
 Func3(ctrl, info) {
     global DoSell := ctrl.Value
-    IniWrite(ctrl.Value, A_MyDocuments "\DLN\GAG2Settings.ini", "Variables", "DoSell")
+    IniWrite(ctrl.Value, A_MyDocuments "\DLN\Settings\GAG2Settings.ini", "Variables", "DoSell")
 }
 
 ; HOTKEYS
@@ -134,7 +138,7 @@ Main.AddText("w90 h20 xp+2 yp+15","Webhook Link").SetFont("s8")
 Main.AddEdit("w190 h20 xp+2 yp+15 vWebhook", Webhook).OnEvent("Change", Func4)
 Func4(ctrl, info) {
     global Webhook := ctrl.Value
-    IniWrite(ctrl.Value, A_MyDocuments "\DLN\GAG2Settings.ini", "Externals", "Webhook")
+    IniWrite(ctrl.Value, A_MyDocuments "\DLN\Settings\GAG2Settings.ini", "Externals", "Webhook")
 }
 
 Main.AddText("w90 h20 xp-2 yp+25","Private Server Link").SetFont("s8")
@@ -142,7 +146,7 @@ Main.AddText("w90 h20 xp-2 yp+25","Private Server Link").SetFont("s8")
 Main.AddEdit("w190 h20 xp+2 yp+15 vPrivate", Private).OnEvent("Change", Func5)
 Func5(ctrl, info) {
     global Private := ctrl.Value
-    IniWrite(ctrl.Value, A_MyDocuments "\DLN\GAG2Settings.ini", "Externals", "Private")
+    IniWrite(ctrl.Value, A_MyDocuments "\DLN\Settings\GAG2Settings.ini", "Externals", "Private")
 }
 
 ; SHOW GUI
@@ -165,7 +169,7 @@ PlantSaving(ctrl, info) {
     for Plant in Plants {
         if Plant.Name = ctrl.Name {
             Plant.Value := ctrl.Value
-            IniWrite(ctrl.Value, A_MyDocuments "\DLN\GAG2Settings.ini", "Plants", ctrl.Name)
+            IniWrite(ctrl.Value, A_MyDocuments "\DLN\Settings\GAG2Settings.ini", "Plants", ctrl.Name)
             break
         }
     }
@@ -186,63 +190,13 @@ GearSaving(ctrl, info) {
     for Gear in Gears {
         if Gear.Name = ctrl.Name {
             Gear.Value := ctrl.Value
-            IniWrite(ctrl.Value, A_MyDocuments "\DLN\GAG2Settings.ini", "Gears", ctrl.Name)
+            IniWrite(ctrl.Value, A_MyDocuments "\DLN\Settings\GAG2Settings.ini", "Gears", ctrl.Name)
             break
         }
     }
 }
 
 ; SCRIPTING
-
-UnfullscreenIfActive() {
-    activeWin := "A"
-    if !WinExist(activeWin)
-        return
-
-    ; 1. Get active window position and size
-    WinGetPos(&X, &Y, &W, &H, activeWin)
-
-    ; 2. Check if the window matches the exact dimensions of the monitor it's on
-    ; (This handles multiple monitors correctly)
-    monitorIndex := MonitorGetPrimary()
-    try monitorIndex := MonitorGetFromWindow(activeWin)
-    MonitorGet(monitorIndex, &Left, &Top, &Right, &Bottom)
-    
-    monW := Right - Left
-    monH := Bottom - Top
-
-    ; 3. IF it matches screen dimensions, it's fullscreen. Turn it off.
-    if (W == monW && H == monH) {
-        ; Standard Windows Unmaximize
-        WinRestore(activeWin)
-        
-        ; Force put the borders/title bar back in case it's a borderless window
-        WinSetStyle("+0xC40000", activeWin) 
-        
-        ; Resize it to 80% of the screen so it's safely windowed
-        newW := monW * 0.8
-        newH := monH * 0.8
-        newX := Left + (monW - newW) / 2
-        newY := Top + (monH - newH) / 2
-        
-        WinMove(newX, newY, newW, newH, activeWin)
-    }
-}
-
-; Helper function to find which monitor a window is currently on
-MonitorGetFromWindow(hwnd) {
-    monitorCount := MonitorGetCount()
-    WinGetPos(&X, &Y, &W, &H, hwnd)
-    winCX := X + W/2
-    winCY := Y + H/2
-    
-    Loop monitorCount {
-        MonitorGet(A_Index, &Left, &Top, &Right, &Bottom)
-        if (winCX >= Left && winCX <= Right && winCY >= Top && winCY <= Bottom)
-            return A_Index
-    }
-    return MonitorGetPrimary()
-}
 
 Joining() {
     if (Webhook != "") and (Private != "") {
@@ -254,18 +208,10 @@ Joining() {
     } else {
         JoinGame(97598239454123)
     }
-    WinWait("ahk_exe RobloxPlayerBeta.exe")
-    UnfullscreenIfActive()
-    WinMaximize("ahk_exe RobloxPlayerBeta.exe")
+    SendWebhook(Webhook, "Resizing")
+    Resize()
     Sleep(5000)
-	WinMove(0,0,816,638,"ahk_exe RobloxPlayerBeta.exe")
-    WinActivate("ahk_exe RobloxPlayerBeta.exe")
-    WinGetPos(&wX, &wY, &wW, &wH, "ahk_exe RobloxPlayerBeta.exe")
-    WinActivate("ahk_exe AutoHotkey64.exe")
-    WinMove(wX+816,wY,,,"ahk_exe AutoHotkey64.exe")
-    WinActivate("ahk_exe RobloxPlayerBeta.exe")
-    Sleep(5000)
-    if ImageSearch(&x, &y, 191, 167, 616, 485, "*20 " A_ScriptDir "\SaveFailed.png") {
+    if ImageSearch(&x, &y, 191, 167, 616, 485, "*20 " A_ScriptDir "\Images\SaveFailed.png") {
         return(MainScript())
     }
     count := 1
@@ -287,35 +233,11 @@ Joining() {
         SendEvent "{Click, " x "," y ", Up}"
         Sleep(1000)
     }
-    SendEvent "{Escape}"
-    Sleep(1000)
-    SendEvent "{Click, 247, 128}"
-    Sleep(500)
-    loop(30) {
-        SendEvent "{Up}"
-        Sleep(50)
-    }
-    loop(10) {
-        SendEvent "{Left}"
-        Sleep(50)
-    }
-    loop(11) {
-        SendEvent "{Down}"
-        Sleep(50)
-    }
-    loop(10) {
-        SendEvent "{Right}"
-        Sleep(50)
-    }
-    SendEvent "{Escape}"
-    Sleep(1000)
-    if PixelSearch(&x, &y, 140, 59, 140, 59, "0xf4f5f8", 3) {
-        SendEvent "{Click, " x ", " y "}"
-        Sleep(200)
-    }
+    Menus()
 }
 
 MainScript() {
+    SendWebhook(Webhook, "Starting")
     Joining()
     loop {
         if DoPlantShop = 1 {
@@ -338,6 +260,7 @@ MainScript() {
 ; Dark Red (No Stock)  - 9f0000
 
 PlantingScript() {
+    SendWebhook(Webhook, "Starting Plant Buying")
     SendEvent "{Click," Coordinates[2].Value1 "," Coordinates[2].Value2 "}"
     Sleep(200)
     SendEvent "{Click," Coordinates[1].Value1 "," Coordinates[1].Value2 "}"
@@ -354,10 +277,7 @@ PlantingScript() {
     Sleep(200)
     SendEvent "{e}"
     Sleep(2000)
-    if PixelSearch(&x, &y, 690, 100, 732, 112, "0xee2523", 5) {
-        return(MainScript())
-    }
-    if PixelSearch(&x, &y, 690, 100, 732, 112, "0xa72d2a", 5) {
+    if PixelSearch(&x, &y, 692, 104, 734, 142, "0xee2927", 5) or PixelSearch(&x, &y, 692, 104, 734, 142, "0xa71b1a", 5) {
         return(MainScript())
     }
     loop {
@@ -377,16 +297,20 @@ PlantingScript() {
             return(MainScript())
         }
         if Plant.Value = 1 {
+            SendWebhook(Webhook, "Trying To Buy " Plant.Name)
             count := 1
             loop {
                 if PixelSearch(&x, &y, 423, 353, 461, 560, "0x42c100", 5) or PixelSearch(&x, &y, 423, 353, 461, 560, "0x2e8800", 5) {
+                    SendWebhook(Webhook, Plant.Name " In Shop; Buying")
                     SendEvent "{Click, " x "," y "}"
                     Sleep(50)
                     count += 1
                     if count = 20 {
+                        SendWebhook(Webhook, "Tried Buying 20 Times; Stopped Trying To Buy")
                         break()
                     }
                 } else if PixelSearch(&x, &y, 423, 353, 461, 560, "0xdf0000", 5) or PixelSearch(&x, &y, 423, 353, 461, 560, "0x9f0000", 5) {
+                    SendWebhook(Webhook, "No Stock")
                     break
                 }
             }
@@ -425,15 +349,13 @@ GearingScript() {
     SendEvent "{s Down}"
     Sleep(1100)
     SendEvent "{a Up}"
+    Sleep(500)
     SendEvent "{s Up}"
     global Position := "GearShop"
     Sleep(200)
     SendEvent "{e}"
     Sleep(2000)
-    if PixelSearch(&x, &y, 690, 100, 732, 112, "0xee2523", 5) {
-        return(MainScript())
-    }
-    if PixelSearch(&x, &y, 690, 100, 732, 112, "0xa72d2a", 5) {
+    if PixelSearch(&x, &y, 692, 104, 734, 142, "0xee2927", 5) or PixelSearch(&x, &y, 692, 104, 734, 142, "0xa71b1a", 5) {
         return(MainScript())
     }
     loop {
@@ -454,16 +376,20 @@ GearingScript() {
             return(MainScript())
         }
         if Gear.Value = 1 {
+            SendWebhook(Webhook, "Trying To Buy " Gear.Name)
             count := 1
             loop {
                 if PixelSearch(&x, &y, 310, 354, 463, 381, "0x42c100", 5) or PixelSearch(&x, &y, 310, 354, 463, 381, "0x2e8800", 5) {
+                    SendWebhook(Webhook, Gear.Name " In Shop; Buying")
                     SendEvent "{Click, " x "," y "}"
                     Sleep(50)
                     count += 1
                     if count = 20 {
+                        SendWebhook(Webhook, "Tried Buying 20 Times; Stopped Trying To Buy")
                         break()
                     }
                 } else if PixelSearch(&x, &y, 310, 354, 463, 381, "0xdf0000", 3) or PixelSearch(&x, &y, 310, 354, 463, 381, "0x9f0000", 5) {
+                    SendWebhook(Webhook, "No Stock")
                     break
                 }
             }
@@ -473,6 +399,10 @@ GearingScript() {
     }
     SendEvent "{Click," Coordinates[4].Value1 "," Coordinates[4].Value2 "}"
     Sleep(500)
+    loop(18) {
+        SendEvent "{WheelDown}"
+        Sleep(50)
+    }
 }
 
 F1::MainScript()

@@ -1,5 +1,6 @@
+global Version := "1.0.0"
+
 #Requires AutoHotkey v2.0
-#SingleInstance Force
 
 SendWebhook(url, message) {
     try {
@@ -13,8 +14,6 @@ SendWebhook(url, message) {
         whr.Send(jsonPayload)
         whr.WaitForResponse()
         
-        ToolTip("Webhook sent!")
-        SetTimer () => ToolTip(), -2000
     } catch as err {
         MsgBox("Webhook failed!`n`n" . err.Message)
     }

@@ -13,9 +13,7 @@ maingui.Show()
 global GAG2 := [
     "GAG2.ahk",
     "GAG2Maps.ahk",
-    "JoinRBX.ahk",
-    "Webhooks.ahk",
-    "SaveFailed.png"
+    "Images/SaveFailed.png"
 ]
 
 if !DirExist(A_MyDocuments "\DLN") {
@@ -24,11 +22,14 @@ if !DirExist(A_MyDocuments "\DLN") {
 if !DirExist(A_MyDocuments "\DLN\GAG2") {
     DirCreate(A_MyDocuments "\DLN\GAG2")
 }
-
-if FileExist(A_MyDocuments "\DLN\join_rbx.exe") {
-    FileDelete(A_MyDocuments "\DLN\join_rbx.exe")
+if !DirExist(A_MyDocuments "\DLN\GAG2\Images") {
+    DirCreate(A_MyDocuments "\DLN\GAG2\Images")
 }
-Download("https://github.com/Adelnon/DLN/releases/download/Exe/join_rbx.exe", A_MyDocuments "\DLN\join_rbx.exe")
+
+if !FileExist(A_MyDocuments "\DLN\join_rbx.exe") {
+    Download("https://github.com/Adelnon/DLN/releases/download/Exe/join_rbx.exe", A_MyDocuments "\DLN\join_rbx.exe")
+}
+
 
 GAG2Download() {
     for file in GAG2 {

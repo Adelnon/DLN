@@ -1,13 +1,11 @@
+global Version := "1.0.0"
+
 #Requires AutoHotkey v2.0
-#SingleInstance Force
-#Include Webhooks.ahk
 
 TargetDir := A_MyDocuments "\DLN"
 
 JoinGame(TargetPlaceID, WebhookURL := "", PrivateServerLink := "") {
     if ProcessExist("join_rbx.exe") {
-        ToolTip("Joiner is already running...")
-        SetTimer () => ToolTip(), -2000
         return
     }
 
@@ -34,7 +32,6 @@ JoinGame(TargetPlaceID, WebhookURL := "", PrivateServerLink := "") {
             FileDelete(ConfigPath)
         FileAppend(ConfigContent, ConfigPath)
     } catch as err {
-        SendWebhook(WebhookURL, "Failed to create config file!`nPath: " . ConfigPath . "`nError: " . err.Message)
         MsgBox("Failed to create config file!`nPath: " . ConfigPath . "`nError: " . err.Message)
         return
     }
@@ -45,22 +42,15 @@ JoinGame(TargetPlaceID, WebhookURL := "", PrivateServerLink := "") {
         if FileExist(JoinExecutable) {
             Run(JoinExecutable, TargetDir, "Hide")
             
-            ToolTip("Launching Roblox ID: " . TargetPlaceID)
-            SetTimer () => ToolTip(), -2000
-            
             if ProcessWait("RobloxPlayerBeta.exe", 30) {
-                SendWebhook(WebhookURL, A_UserName . " successfully joined **" . GameName . "**")
                 try FileDelete(ConfigPath)
             } else {
-                SendWebhook(WebhookURL, "Failed to launch Roblox. Please check if Roblox is installed and try again.")
                 MsgBox("Failed to launch Roblox. Please check if Roblox is installed and try again.")
             }
         } else {
-            SendWebhook(WebhookURL, "Error: join_rbx.exe not found at:`n" . JoinExecutable)
             MsgBox("Error: join_rbx.exe not found at:`n" . JoinExecutable)
         }
     } catch as err {
-        SendWebhook(WebhookURL, "Failed to launch join_rbx.exe`nError: " . err.Message)
         MsgBox("Failed to launch join_rbx.exe`nError: " . err.Message)
     }
 }

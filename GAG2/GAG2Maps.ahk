@@ -1,3 +1,5 @@
+global Version := "1.0.0"
+
 Plants := [
     {Name: "Carrot",                    Value: 0},
     {Name: "Strawberry",                Value: 0},
@@ -24,6 +26,7 @@ Plants := [
     {Name: "PoisonApple",               Value: 0},
     {Name: "Venom Spitter",             Value: 0},
     {Name: "MoonBloom",                 Value: 0},
+    {Name: "HypnoBloom",                Value: 0},
     {Name: "DragonsBreath",             Value: 0},
 ]
 
@@ -36,16 +39,17 @@ Gears := [
     {Name: "RareSprinkler",             Value: 0},
     {Name: "JumpMushroom",              Value: 0},
     {Name: "SpeedMushroom",             Value: 0},
-    {Name: "Lantern",                   Value: 0},
+    {Name: "Megaphone",                 Value: 0},
     {Name: "ShrinkMushroom",            Value: 0},
     {Name: "SupersizeMushroom",         Value: 0},
     {Name: "Gnome",                     Value: 0},
     {Name: "Flashbang",                 Value: 0},
     {Name: "BasicPot",                  Value: 0},
-    {Name: "LegendarySprinkler",        Value: 0},
     {Name: "InvisibilityMushroom",      Value: 0},
-    {Name: "Teleporter",                Value: 0},
+    {Name: "LegendarySprinkler",        Value: 0},
     {Name: "Wheelbarrow",               Value: 0},
+    {Name: "PlayerMagnet",              Value: 0},
+    {Name: "StrawberrySniper",          Value: 0},
     {Name: "SuperWateringCan",          Value: 0},
     {Name: "SuperSprinkler",            Value: 0},
 ]
