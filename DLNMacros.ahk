@@ -1,4 +1,4 @@
-global Version := "1.0.2"
+global Version := "1.0.3"
 
 #Requires AutoHotkey v2.0
 #SingleInstance Force
@@ -87,6 +87,11 @@ F2::GeneralDownload()
 
 CheckVersion(localVersion, url, selfPath) {
     tmp := A_Temp "\dln_update.ahk"
+
+    if FileExist(tmp) {
+        FileDelete(tmp)
+    }
+
     bustedUrl := url (InStr(url, "?") ? "&" : "?") "nocache=" A_TickCount "_" A_Now
     try Download(bustedUrl, tmp)
     catch
