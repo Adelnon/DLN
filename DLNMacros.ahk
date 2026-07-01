@@ -87,7 +87,7 @@ F2::GeneralDownload()
 
 CheckVersion(localVersion, url, selfPath) {
     tmp := A_Temp "\dln_update.ahk"
-    bustedUrl := url "?nocache=" A_TickCount
+    bustedUrl := url (InStr(url, "?") ? "&" : "?") "nocache=" A_TickCount "_" A_Now
     try Download(bustedUrl, tmp)
     catch
         return
@@ -106,7 +106,7 @@ CheckVersion(localVersion, url, selfPath) {
 
     if (remoteVersion != localVersion) {
         if MsgBox("Update available! (" localVersion " → " remoteVersion ")`nUpdate now?", , "YesNo") = "Yes" {
-            Download(url, selfPath)
+            Download(url, selfPath)  ; hier bewusst OHNE nocache, damit die echte Datei gespeichert wird
             MsgBox("Updated! Restarting...")
             Reload()
         }
