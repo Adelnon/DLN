@@ -87,7 +87,8 @@ F2::GeneralDownload()
 
 CheckVersion(localVersion, url, selfPath) {
     tmp := A_Temp "\dln_update.ahk"
-    try Download(url, tmp)
+    bustedUrl := url "?nocache=" A_TickCount
+    try Download(bustedUrl, tmp)
     catch
         return
 
