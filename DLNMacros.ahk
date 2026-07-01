@@ -44,8 +44,8 @@ global PS99 := [
 ; info per macro, key = filename without .ahk
 ; fill in real image/description/links per macro over time
 global MacroInfo := Map(
-    "AntiAFK", {img: "default.png", desc: "Keeps you from getting kicked for being AFK.", youtube: "", discord: ""},
-    "GAG2", {img: "default.png", desc: "Main Grow A Garden 2 macro.", youtube: "", discord: ""},
+    "AntiAFK", {img: A_MyDocuments "\DLN\Extras\default.jpeg", desc: "Keeps you from getting kicked for being AFK.", youtube: "", discord: ""},
+    "GAG2", {img: "Extras\default.jpeg", desc: "Main Grow A Garden 2 macro.", youtube: "", discord: ""},
     "GAG2Maps", {img: "default.png", desc: "Map/teleport helper for GAG2.", youtube: "", discord: ""},
     "TradingPlaza", {img: "default.png", desc: "Trading Plaza automation for PS99.", youtube: "", discord: ""}
 )
