@@ -10,34 +10,80 @@ CheckVersion(Version, BaseURL "DLNMacros.ahk", A_ScriptFullPath)
 maingui := Gui()
 maingui.Show()
 
+global Extras := [
+    "JoinRBX.ahk",
+    "Menus.ahk",
+    "Resize.ahk",
+    "Webhooks.ahk"
+]
+
+global General := [
+    "AntiAFK.ahk"
+]
+
 global GAG2 := [
     "GAG2.ahk",
     "GAG2Maps.ahk",
     "Images/SaveFailed.png"
 ]
 
+global PS99 := [
+    "TradingPlaza.ahk"
+]
+
 if !DirExist(A_MyDocuments "\DLN") {
     DirCreate(A_MyDocuments "\DLN")
 }
-if !DirExist(A_MyDocuments "\DLN\GAG2") {
-    DirCreate(A_MyDocuments "\DLN\GAG2")
-}
-if !DirExist(A_MyDocuments "\DLN\GAG2\Images") {
-    DirCreate(A_MyDocuments "\DLN\GAG2\Images")
-}
-
 if !FileExist(A_MyDocuments "\DLN\join_rbx.exe") {
     Download("https://github.com/Adelnon/DLN/releases/download/Exe/join_rbx.exe", A_MyDocuments "\DLN\join_rbx.exe")
 }
 
+ExtrasDownload() {
+    if !DirExist(A_MyDocuments "\DLN\Extras") {
+        DirCreate(A_MyDocuments "\DLN\Extras")
+    }
+    for file in Extras {
+        if !FileExist(A_MyDocuments "\DLN\Extras\" . file) {
+            Download(BaseURL "Extras/" . file, A_MyDocuments "\DLN\Extras\" . file)
+        } else {
+            CheckVersion(Version, BaseURL "Extras/" . file, A_MyDocuments "\DLN\Extras\" . file)
+        }
+    }
+}
+
+GeneralDownload() {
+    ExtrasDownload()
+    if !DirExist(A_MyDocuments "\DLN\General") {
+        DirCreate(A_MyDocuments "\DLN\General")
+    }
+    for file in General {
+        if !FileExist(A_MyDocuments "\DLN\General\" . file) {
+            Download(BaseURL "General/" . file, A_MyDocuments "\DLN\General\" . file)
+        } else {
+            CheckVersion(Version, BaseURL "General/" . file, A_MyDocuments "\DLN\General\" . file)
+        }
+    }
+}
 
 GAG2Download() {
+    ExtrasDownload()
+    if !DirExist(A_MyDocuments "\DLN\GAG2") {
+        DirCreate(A_MyDocuments "\DLN\GAG2")
+    }
+    if !DirExist(A_MyDocuments "\DLN\GAG2\Images") {
+        DirCreate(A_MyDocuments "\DLN\GAG2\Images")
+    }
     for file in GAG2 {
-        Download(BaseURL "GAG2/" . file, A_MyDocuments "\DLN\GAG2\" . file)
+        if !FileExist(A_MyDocuments "\DLN\GAG2\" . file) {
+            Download(BaseURL "GAG2/" . file, A_MyDocuments "\DLN\GAG2\" . file)
+        } else {
+            CheckVersion(Version, BaseURL "GAG2/" . file, A_MyDocuments "\DLN\GAG2\" . file)
+        }
     }
 }
 
 F1::GAG2Download()
+F2::GeneralDownload()
 
 CheckVersion(localVersion, url, selfPath) {
     tmp := A_Temp "\dln_update.ahk"

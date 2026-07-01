@@ -1,4 +1,6 @@
-global Version := "1.0.0"
+global Version := "1.0.1"
+
+global w := "woooea"
 
 #Requires AutoHotkey 2.0.0
 #SingleInstance Force

@@ -1,4 +1,5 @@
-global Version := "1.0.0"
+global Version := "1.0.5"
+global wow := wow
 
 Plants := [
     {Name: "Carrot",                    Value: 0},
