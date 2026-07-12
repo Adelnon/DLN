@@ -7,7 +7,7 @@ CoordMode "Pixel", "Window"
 
 ; EXTERNAL STUFF
 
-#Include GAG2Maps.ahk
+#Include GAG2Extras\GAG2Maps.ahk
 #Include ..\Extras\Webhooks.ahk
 #Include ..\Extras\JoinRBX.ahk
 #Include ..\Extras\Resize.ahk
