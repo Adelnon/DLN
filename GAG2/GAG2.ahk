@@ -1,4 +1,4 @@
-global Version := "1.0.0"
+global Version := "1.0.1"
 
 #Requires AutoHotkey 2.0.0
 #SingleInstance Force

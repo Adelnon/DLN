@@ -42,6 +42,8 @@ if !DirExist(A_MyDocuments "\DLN") {
     DirCreate(A_MyDocuments "\DLN")
 }
 
+ExtrasDownload()
+
 ExtrasDownload() {
     if !DirExist(A_MyDocuments "\DLN\Extras") {
         DirCreate(A_MyDocuments "\DLN\Extras")
@@ -80,11 +82,28 @@ GAG2Download() {
     if !DirExist(A_MyDocuments "\DLN\GAG2\Images") {
         DirCreate(A_MyDocuments "\DLN\GAG2\Images")
     }
+    if !DirExist(A_MyDocuments "\DLN\GAG2\GAG2Extras") {
+        DirCreate(A_MyDocuments "\DLN\GAG2\GAG2Extras")
+    }
     for file in GAG2 {
         if !FileExist(A_MyDocuments "\DLN\GAG2\" . file) {
             Download(BaseURL "GAG2/" . file, A_MyDocuments "\DLN\GAG2\" . file)
         } else {
             CheckVersion(Version, BaseURL "GAG2/" . file, A_MyDocuments "\DLN\GAG2\" . file)
+        }
+    }
+}
+
+PS99Download() {
+    ExtrasDownload()
+    if !DirExist(A_MyDocuments "\DLN\PS99") {
+        DirCreate(A_MyDocuments "\DLN\PS99")
+    }
+    for file in PS99 {
+        if !FileExist(A_MyDocuments "\DLN\PS99\" . file) {
+            Download(BaseURL "PS99/" . file, A_MyDocuments "\DLN\PS99\" . file)
+        } else {
+            CheckVersion(Version, BaseURL "PS99/" . file, A_MyDocuments "\DLN\PS99\" . file)
         }
     }
 }
@@ -125,5 +144,3 @@ CheckVersion(localVersion, url, selfPath) {
         }
     }
 }
-
-F6::ExtrasDownload()
