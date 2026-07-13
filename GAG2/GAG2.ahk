@@ -1,4 +1,4 @@
-global Version := "1.0.0"
+global Version := "1.0.1"
 
 #Requires AutoHotkey 2.0.0
 #SingleInstance Force
@@ -17,7 +17,7 @@ CoordMode "Pixel", "Window"
 
 Create() {
     try {
-        if !FileExist(A_MyDocuments "\DLN\Settings") {
+        if !FileExist("..\Settings") {
             DirCreate(A_MyDocuments "\DLN\Settings")
         }
         if !FileExist(A_MyDocuments "\DLN\Settings\GAG2Settings.ini") {
@@ -148,6 +148,8 @@ Func5(ctrl, info) {
     global Private := ctrl.Value
     IniWrite(ctrl.Value, A_MyDocuments "\DLN\Settings\GAG2Settings.ini", "Externals", "Private")
 }
+
+Main.AddText("w180 h63 xp+2 yp+25","for any issues/update requests ping @adelnon`np.s. selling prob never coming cuz no reason for it").SetFont("s10")
 
 ; SHOW GUI
 

@@ -79,9 +79,9 @@ global PS99 := [
 ]
 
 global MacroInfo := Map(
-    "AntiAFK", {desc: "Keeps you from getting kicked for being AFK.", info: "Put your longer AntiAFK explanation here.", youtube: ""},
-    "GAG2", {desc: "Main Grow A Garden 2 macro.", info: "Put your longer GAG2 explanation here.", youtube: ""},
-    "TradingPlaza", {desc: "Trading Plaza automation for PS99.", info: "Put your longer TradingPlaza explanation here.", youtube: ""}
+    "AntiAFK", {desc: "Keeps you from getting kicked for being AFK.", info: "Sends a small input every few minutes so Roblox doesn't count you as idle. Runs quietly in the background while you're away.", youtube: ""},
+    "GAG2", {desc: "Main Grow A Garden 2 macro.", info: "Automates planting, watering, and harvesting in Grow A Garden 2. Pulls in map data and image checks automatically, no setup needed.", youtube: ""},
+    "TradingPlaza", {desc: "Trading Plaza automation for PS99.", info: "Automates listing and browsing trades in the Pet Simulator 99 Trading Plaza. Make sure you're standing in the plaza before starting.", youtube: ""}
 )
 
 global CategoryMap := Map(
@@ -199,7 +199,9 @@ StartMacro(macroName) {
 
 ; Downloads every file in fileList for the given folder.
 ; - Missing files are grabbed immediately, no prompt (first-time install).
-; - Existing files with a version mismatch are queued as updates.
+; - Existing files whose remote copy differs from the local copy are
+;   queued as updates (see RemoteFileChanged - this compares actual file
+;   content, so it works even for files with no 'global Version' line).
 ; - If promptForUpdates is true, ONE combined prompt covers the whole
 ;   category (not one per file). If false (Extras), updates apply silently.
 ; - selectedMacro: when a fileList has multiple show:true (selectable)
@@ -231,10 +233,8 @@ DownloadCategoryFiles(folder, fileList, promptForUpdates, selectedMacro := "") {
 
         if !FileExist(localPath) {
             toInstall.Push({path: localPath, url: remoteUrl})
-        } else {
-            remoteVersion := GetRemoteVersion(remoteUrl)
-            if (remoteVersion != "" && remoteVersion != Version)
-                toUpdate.Push({path: localPath, url: remoteUrl})
+        } else if RemoteFileChanged(remoteUrl, localPath) {
+            toUpdate.Push({path: localPath, url: remoteUrl})
         }
     }
 
@@ -277,28 +277,37 @@ PS99Download(macroName := "") {
     DownloadCategoryFiles("PS99", PS99, true, macroName)
 }
 
-GetRemoteVersion(url) {
-    tmp := A_Temp "\dln_version_check.ahk"
-
+; Downloads the remote copy of a file to a temp path and compares it
+; against the local copy. Works for any file type - .ahk scripts with or
+; without a 'global Version' line, images, whatever - since it looks at
+; the actual bytes instead of a version string someone has to remember
+; to bump inside every single file.
+RemoteFileChanged(url, localPath) {
+    tmp := A_Temp "\dln_check.tmp"
     if FileExist(tmp)
         FileDelete(tmp)
 
     bustedUrl := url (InStr(url, "?") ? "&" : "?") "nocache=" A_TickCount "_" A_Now
     try Download(bustedUrl, tmp)
     catch {
-        return ""
+        return false
     }
 
     if !FileExist(tmp)
-        return ""
+        return false
 
-    content := FileRead(tmp)
+    changed := FilesDiffer(localPath, tmp)
     FileDelete(tmp)
+    return changed
+}
 
-    if !RegExMatch(content, 'global Version := "(.+)"', &m)
-        return ""
+FilesDiffer(pathA, pathB) {
+    if (FileGetSize(pathA) != FileGetSize(pathB))
+        return true
 
-    return Trim(m[1], ' `r`n"')
+    bufA := FileRead(pathA, "RAW")
+    bufB := FileRead(pathB, "RAW")
+    return DllCall("msvcrt.dll\memcmp", "Ptr", bufA, "Ptr", bufB, "UPtr", bufA.Size, "Int") != 0
 }
 
 CheckVersion(localVersion, url, selfPath) {
