@@ -1,5 +1,15 @@
 global Version := "1.0.0"
 
+; how to add new game
+; add to dropdownlist
+; add to arrays or wtv
+; make function
+; GAG2Download(macroName := "") {
+;     ExtrasDownload()
+;     DownloadCategoryFiles("GAG2", GAG2, true, macroName)
+; }
+; actually upload to github
+
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 
@@ -60,7 +70,8 @@ global General := [
 
 global GAG2 := [
     {file: "GAG2.ahk", show: true},
-    {file: "GAG2Extras/GAG2Maps.ahk", show: false},
+    {file: "GAG2Test.ahk", show:true},
+    {file: "GAG2Maps.ahk", show: false},
     {file: "Images/SaveFailed.png", show: false}
 ]
 
@@ -71,6 +82,7 @@ global PS99 := [
 global MacroInfo := Map(
     "AntiAFK", {desc: "Keeps you from getting kicked for being AFK.", youtube: ""},
     "GAG2", {desc: "Main Grow A Garden 2 macro.", youtube: ""},
+    "GAG2Maps", {desc: "drugs", youtube: ""},
     "TradingPlaza", {desc: "Trading Plaza automation for PS99.", youtube: ""}
 )
 
