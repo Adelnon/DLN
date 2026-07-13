@@ -31,7 +31,7 @@ MacroListBox.OnEvent("Change", MacroSelected)
 
 ; --- Info box: title/description and the macro-specific buttons.
 ;     These change depending on the selected macro. ---
-InfoGroup := Main.AddGroupBox("x170 y38 w160 h125", "Info")
+InfoGroup := Main.AddGroupBox("x170 y38 w160 h129", "Info")
 MacroNameText := Main.AddText("x180 y51 w140 h18 Center", "")
 MacroNameText.SetFont("s11 bold")
 MacroDescText := Main.AddText("x180 y73 w140 h40", "")
@@ -70,8 +70,7 @@ global General := [
 
 global GAG2 := [
     {file: "GAG2.ahk", show: true},
-    {file: "GAG2Test.ahk", show:true},
-    {file: "GAG2Maps.ahk", show: false},
+    {file: "GAG2Extras/GAG2Maps.ahk", show: false},
     {file: "Images/SaveFailed.png", show: false}
 ]
 
@@ -80,10 +79,9 @@ global PS99 := [
 ]
 
 global MacroInfo := Map(
-    "AntiAFK", {desc: "Keeps you from getting kicked for being AFK.", youtube: ""},
-    "GAG2", {desc: "Main Grow A Garden 2 macro.", youtube: ""},
-    "GAG2Maps", {desc: "drugs", youtube: ""},
-    "TradingPlaza", {desc: "Trading Plaza automation for PS99.", youtube: ""}
+    "AntiAFK", {desc: "Keeps you from getting kicked for being AFK.", info: "Put your longer AntiAFK explanation here.", youtube: ""},
+    "GAG2", {desc: "Main Grow A Garden 2 macro.", info: "Put your longer GAG2 explanation here.", youtube: ""},
+    "TradingPlaza", {desc: "Trading Plaza automation for PS99.", info: "Put your longer TradingPlaza explanation here.", youtube: ""}
 )
 
 global CategoryMap := Map(
@@ -148,11 +146,11 @@ ClearInfo(*) {
 ShowInformation(macroName) {
     if !macroName
         return
-    info := MacroInfo.Has(macroName) ? MacroInfo[macroName] : {desc: "No info available."}
+    info := MacroInfo.Has(macroName) ? MacroInfo[macroName] : {info: "No info available."}
 
     infoGui := Gui("+AlwaysOnTop", macroName " - Information")
     infoGui.SetFont("s9")
-    infoGui.AddText("w300", info.desc)
+    infoGui.AddText("w300", info.info)
     infoGui.AddButton("w80", "Close").OnEvent("Click", (*) => infoGui.Destroy())
     infoGui.Show()
 }

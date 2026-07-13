@@ -1,4 +1,4 @@
-global Version := "1.0.0"
+global Version := "1.0.1"
 
 Plants := [
     {Name: "Carrot",                    Value: 0},
@@ -24,7 +24,7 @@ Plants := [
     {Name: "VenusFlyTrap",              Value: 0},
     {Name: "Pomegranate",               Value: 0},
     {Name: "PoisonApple",               Value: 0},
-    {Name: "Venom Spitter",             Value: 0},
+    {Name: "VenomSpitter",              Value: 0},
     {Name: "MoonBloom",                 Value: 0},
     {Name: "HypnoBloom",                Value: 0},
     {Name: "DragonsBreath",             Value: 0},
