@@ -7,7 +7,7 @@ Transparency() {
     Sleep(1000)
     SendEvent "{Tab}"
     Sleep(500)
-    loop(30) {
+    loop(40) {
         SendEvent "{Up}"
         Sleep(50)
     }

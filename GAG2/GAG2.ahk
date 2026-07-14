@@ -1,4 +1,4 @@
-global Version := "1.0.2"
+global Version := "1.0.3"
 
 #Requires AutoHotkey 2.0.0
 #SingleInstance Force
@@ -12,6 +12,7 @@ CoordMode "Pixel", "Window"
 #Include ..\Extras\JoinRBX.ahk
 #Include ..\Extras\Resize.ahk
 #Include ..\Extras\Menus.ahk
+#Include ..\Extras\Disconnection.ahk
 
 ; FILES CREATION
 
@@ -213,9 +214,7 @@ Joining() {
     SendWebhook(Webhook, "Resizing")
     Resize()
     Sleep(5000)
-    if ImageSearch(&x, &y, 191, 167, 616, 485, "*20 " A_ScriptDir "\Images\SaveFailed.png") {
-        return(MainScript())
-    }
+    Disconnect(MainScript)
     count := 1
     loop {
         Sleep(1000)
@@ -407,6 +406,6 @@ GearingScript() {
     }
 }
 
-F1::MainScript()
+F1::Disconnect(MainScript)
 F2::Pause -1
 F3::ExitApp()

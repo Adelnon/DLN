@@ -1,4 +1,4 @@
-global Version := "1.0.0"
+global Version := "1.0.1"
 
 ; how to add new game
 ; add to dropdownlist
@@ -19,7 +19,7 @@ global DiscordLink := "https://discord.gg/f6QY2XhBf4"
 CheckVersion(Version, BaseURL "DLNMacros.ahk", A_ScriptFullPath)
 
 Main := Gui("+AlwaysOnTop")
-Main.Title := "Grow A Garden 2 Macro"
+Main.Title := "DLN Macros"
 
 CategoryDDL := Main.AddDropDownList(, ["General", "GAG2", "PS99"])
 CategoryDDL.OnEvent("Change", CategoryChanged)
@@ -61,7 +61,9 @@ global Extras := [
     "JoinRBX.ahk",
     "Menus.ahk",
     "Resize.ahk",
-    "Webhooks.ahk"
+    "Webhooks.ahk",
+    "Disconnection.ahk",
+    "Images/Disconnect.png"
 ]
 
 global General := [
@@ -70,8 +72,7 @@ global General := [
 
 global GAG2 := [
     {file: "GAG2.ahk", show: true},
-    {file: "GAG2Extras/GAG2Maps.ahk", show: false},
-    {file: "Images/SaveFailed.png", show: false}
+    {file: "GAG2Extras/GAG2Maps.ahk", show: false}
 ]
 
 global PS99 := [
@@ -256,6 +257,8 @@ ExtrasDownload() {
     localDir := A_MyDocuments "\DLN\Extras"
     if !DirExist(localDir)
         DirCreate(localDir)
+    if !DirExist(localdir "\Images")
+        DirCreate(localDir "\Images")
     if !FileExist(localDir "\join_rbx.exe")
         Download("https://github.com/Adelnon/DLN/releases/download/Exe/join_rbx.exe", localDir "\join_rbx.exe")
 
