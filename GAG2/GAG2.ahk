@@ -406,6 +406,6 @@ GearingScript() {
     }
 }
 
-F1::Disconnect(MainScript)
+F1::MainScript()
 F2::Pause -1
 F3::ExitApp()
