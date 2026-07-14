@@ -1,6 +1,8 @@
 global Version := "1.0.1"
 
 #Requires AutoHotkey v2.0
+CoordMode "Mouse", "Window"
+CoordMode "Pixel", "Window"
 
 Transparency() {
     SendEvent "{Escape}"
@@ -14,7 +16,7 @@ Transparency() {
     loop {
         SendEvent "{Down}"
         Sleep(50)
-        if PixelSearch(&x, &y, 709, 496, 724, 506, "0xc2c2c3", 1) and PixelSearch(&x, &y, 349, 466, 361, 475, "0xf8f8f8", 1) and PixelSearch(&x, &y, 30, 490, 91, 500, "0xc2c2c3", 1) {
+        if PixelSearch(&x, &y, 709, 496, 724, 506, "0xc2c2c3", 2) and PixelSearch(&x, &y, 349, 466, 361, 475, "0xf8f8f8", 2) and PixelSearch(&x, &y, 30, 490, 91, 500, "0xc2c2c3", 2) {
             break()
         }
     }
