@@ -1,4 +1,4 @@
-global Version := "1.0.1"
+global Version := "1.0.0"
 
 Plants := [
     {Name: "Carrot",                    Value: 0},

@@ -1,4 +1,4 @@
-global Version := "1.0.6"
+global Version := "1.1.0"
 
 #Requires AutoHotkey 2.0.0
 #SingleInstance Force
@@ -27,13 +27,6 @@ Create() {
 }
 
 Create()
-
-; DOWNLOAD JOIN SYSTEM
-
-if FileExist(A_MyDocuments "\DLN\join_rbx.exe") {
-    FileDelete(A_MyDocuments "\DLN\join_rbx.exe")
-}
-Download("https://github.com/Adelnon/DLN/releases/download/Exe/join_rbx.exe", A_MyDocuments "\DLN\join_rbx.exe")
 
 ; VARIABLES
 
