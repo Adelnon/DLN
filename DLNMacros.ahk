@@ -1,4 +1,4 @@
-global Version := "1.0.2"
+global Version := "1.0.3"
 
 ; how to add new game
 ; add to dropdownlist
@@ -193,6 +193,7 @@ StartMacro(macroName) {
     }
 
     Run(filePath)
+    ExitApp()
 }
 
 ; ---------------- Downloads ----------------
