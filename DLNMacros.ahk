@@ -62,7 +62,6 @@ global Extras := [
     "Menus.ahk",
     "Resize.ahk",
     "Webhooks.ahk",
-    "Disconnection.ahk",
     "Images/Disconnect.png"
 ]
 
