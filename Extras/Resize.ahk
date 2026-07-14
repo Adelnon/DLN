@@ -56,7 +56,7 @@ Resize() {
     WinWait("ahk_exe RobloxPlayerBeta.exe")
     Unfullscreen()
     WinMaximize("ahk_exe RobloxPlayerBeta.exe")
-    Sleep(5000)
+    Sleep(7500)
 	WinMove(0,0,816,638,"ahk_exe RobloxPlayerBeta.exe")
     WinActivate("ahk_exe RobloxPlayerBeta.exe")
     WinGetPos(&wX, &wY, &wW, &wH, "ahk_exe RobloxPlayerBeta.exe")
