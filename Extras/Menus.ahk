@@ -16,7 +16,7 @@ Transparency() {
     loop {
         SendEvent "{Down}"
         Sleep(200)
-        if PixelSearch(&x, &y, 709, 496, 724, 506, "0xc2c2c3", 2) and PixelSearch(&x, &y, 349, 466, 361, 475, "0xf8f8f8", 2) and PixelSearch(&x, &y, 30, 490, 91, 500, "0xc2c2c3", 2) {
+        if PixelSearch(&x, &y, 350, 480, 362, 484, "0x8f8f90", 2) {
             break()
         }
     }
