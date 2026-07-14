@@ -1,4 +1,4 @@
-global Version := "1.0.0"
+global Version := "1.0.1"
 
 #Requires AutoHotkey v2.0
 
@@ -11,9 +11,12 @@ Transparency() {
         SendEvent "{Up}"
         Sleep(50)
     }
-    loop(11) {
+    loop {
         SendEvent "{Down}"
         Sleep(50)
+        if PixelSearch(&x, &y, 709, 496, 724, 506, "0xc2c2c3", 1) and PixelSearch(&x, &y, 349, 466, 361, 475, "0xf8f8f8", 1) and PixelSearch(&x, &y, 30, 490, 91, 500, "0xc2c2c3", 1) {
+            break()
+        }
     }
     loop(10) {
         SendEvent "{Right}"
