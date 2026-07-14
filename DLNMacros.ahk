@@ -1,4 +1,4 @@
-global Version := "1.0.1"
+global Version := "1.0.2"
 
 ; how to add new game
 ; add to dropdownlist
