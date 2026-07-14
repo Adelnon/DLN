@@ -1,4 +1,4 @@
-global Version := "1.0.3"
+global Version := "1.0.4"
 
 #Requires AutoHotkey 2.0.0
 #SingleInstance Force
@@ -406,6 +406,6 @@ GearingScript() {
     }
 }
 
-F1::MainScript()
+F1::Disconnect(MainScript)
 F2::Pause -1
 F3::ExitApp()
